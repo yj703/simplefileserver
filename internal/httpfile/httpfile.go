@@ -273,7 +273,7 @@ func DownloadPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sort.Slice(ret, func(i, j int) bool {
-		return ret[i].ModTime.Unix() > ret[3].ModTime.Unix()
+		return ret[i].ModTime.Unix() > ret[j].ModTime.Unix()
 	})
 
 	m := make(map[string]interface{})
