@@ -132,7 +132,16 @@ func UploadFileToDir(w http.ResponseWriter, r *http.Request, targetDir string) s
 		return ""
 	}
 
-	fmt.Fprintf(w, "succesfully uploaded file\n")
+	w.Write([]byte(`<!DOCTYPE html>
+	<ntml>
+	<body>
+		succesfully uploaded file!
+		<br>
+		<input type="button" onclick="window.location.href='/downloadpage';" value= "downloadpage" />
+		<input type="button" onclick="window.location.href='/uploadpage';" value= "uploadpage" />
+	</body>
+	</ntml>`))
+
 	return validFilename
 }
 
@@ -226,7 +235,7 @@ func UploadPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func DownloadPage(w http.ResponseWriter, r *http.Request) {
-	log.Printf("DownloadPage request path is 3v", r.RequestURI)
+	log.Printf("DownloadPage request path is %v", r.RequestURI)
 
 	uriParts := strings.Split(r.RequestURI, "/")
 	if len(uriParts)-1 > 0 && uriParts[len(uriParts)-1] == "" {
@@ -339,7 +348,7 @@ func DeleteFile(w http.ResponseWriter, r *http.Request) {
 	<body>
 		delete success!
 		<br>
-		<input type="button" onclick="windows.location.href='/downloadpage';" value= "Back" /?
+		<input type="button" onclick="window.location.href='/downloadpage';" value= "Back" />
 	</body>
 	</ntml>`))
 }

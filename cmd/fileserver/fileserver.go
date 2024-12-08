@@ -24,8 +24,23 @@ func main() {
 		Driver: server.NewDefaultDriver(),
 	}
 
+	mux := http.NewServeMux()
+
+	// Register a route.
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "homepage... ")
+	})
+
+	mux.HandleFunc("/health", health)
+
+	mux.HandleFunc("/upload", httpfile.UploadFile)
+	mux.HandleFunc("/delete/", httpfile.DeleteFile)
+	mux.Handle("/download/", http.StripPrefix("/download", http.FileServer(http.Dir(httpfile.UploadDir))))
+	mux.HandleFunc("/uploadpage", httpfile.UploadPage)
+	mux.HandleFunc("/downloadpage", httpfile.DownloadPage)
+
 	// Pass the options to the Server constructor.
-	srv := server.New(http.DefaultServeMux, srvOptions)
+	srv := server.New(mux, srvOptions)
 
 	// If your application will be behind a load balancer that handles graceful
 	// shutdown of requests, you may not need to call Shutdown on the server
@@ -41,19 +56,6 @@ func main() {
 			srv.Shutdown(context.Background())
 		}
 	}()
-
-	// Register a route.
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "homepage... ")
-	})
-
-	http.HandleFunc("/health", health)
-
-	http.HandleFunc("/upload", httpfile.UploadFile)
-	http.HandleFunc("/delete", httpfile.DeleteFile)
-	http.Handle("/download", http.StripPrefix("/download", http.FileServer(http.Dir(httpfile.UploadDir))))
-	http.HandleFunc("/uploadpage", httpfile.UploadPage)
-	http.HandleFunc("/downloadpage", httpfile.DownloadPage)
 
 	// Start the server. You will see requests logged to STDOUT.
 	// In the absence of an error, ListenAndServe blocks forever.
