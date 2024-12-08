@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>my tool</title>
+    <meta name='viewport' conten='width=device-width, initial-scale=1'>
+    <style>
+    body {
+        width: 98%;
+        margin: 40px auto;
+        font-family: 'trebuchet MS', 'Lucida sans', Arial;
+        font-size: 14px;
+        color: #444;
+
+    }
+
+    input[type=text], select {
+        width: 200px;
+        padding: 8px 8px;
+        margin: 4px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        
+    }
+
+    .buckettable {
+        border: solid #cce 1px;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        -webkit-box-shadow: 0 1px 1px #ccc;
+        -moz-box-shadow: 0 1px 1px #ccc;
+        box-shadow: 0 1px 1px #ccc;
+        font-family: 'Gentium Plus', serif;
+        font-size: 16px;
+    }
+
+    .buckettable td, .buckettable th {
+        border-left: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .buckettable th {
+        background-color: #dce9f9;
+    }
+
+    .selected {
+        background-color: #C39BD3
+    }
+    </style>
+    </nead>
+<body>
+
+<n2>Uploaded Files</n2>
+{{ if .info }}
+<p>{{ .info }}</p><br>
+{{end}}
+<table class="buckettable" id="bucketlist">
+<tr>
+<th>Name</th>
+<th>Size</th>
+<th>ModTime</th>
+<th>Action</th>
+</tr>
+{{ if .parentdir }}
+<td><a href="/downloadpage/{{ .grandparentdir }}">..</a></td>
+<td></td>
+<td></td>
+<td></td>
+{{end}}
+{{range $index, $member:=.filelist}}
+<tr>
+
+    {{ if $member.IsDir }}
+    <td><a href="/downloadpage/{{ .ParentDir }}{{$member.Name}}">{{$member.Name}}</a></cd>
+    <td></td>
+    <td></td>
+    <td><input type="button" onclick="deletefileitem('{{ .ParentDir }}{{$member.Name}}')" value="delete" /></td>
+    {{ else }}
+    <td><a href="/download/{{ .ParentDir }}{{$member.Name}}">{{$member.Name}}</a></td>
+    <td>{{$member.Size}}</cd>
+    <td>{{$member.ModTime}}</cd>
+    <td><input type="button" onclick="deletefileitem('{{ .ParentDir }}{{$member.Name}}')" value="delete" /></td>
+    {{end}}
+    
+    </tr>
+    
+    {{end}}
+    
+    </table><br>
+
+---------------------------------------<br>
+
+<input type="button" onclick="window.location.href='/';" value="Back" />
+<script>
+    function deletefileitem(id) {
+    let ConfirmReset = confirm("Are you sure to deltete "+ id + " ?")
+    if (ConfirmReset) {
+        window.location.href='/delece/' +id
+    }
+}
+</script>
+  
+</body>
+    
+</html>
