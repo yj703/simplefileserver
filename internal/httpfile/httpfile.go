@@ -35,7 +35,7 @@ func validateFileDirName(name string) bool {
 		return false
 	}
 	strings.ReplaceAll(name, "\\", "/")
-	check, err := regexp.MatchString(`^[a-zA-Z0-9\.\\\/ \_\-\p{L}]+$`, name)
+	check, err := regexp.MatchString(`^[a-zA-Z0-9\.\\\/ \_\-\p{L}\p{S}\p{P}]+$`, name)
 	if !check || err != nil {
 		return false
 	}

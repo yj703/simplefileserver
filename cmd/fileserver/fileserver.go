@@ -28,7 +28,13 @@ func main() {
 
 	// Register a route.
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "homepage... ")
+		w.Write([]byte(`<!DOCTYPE html>
+		<ntml>
+		<body>
+			<input type="button" onclick="window.location.href='/downloadpage';" value= "downloadpage" />
+			<input type="button" onclick="window.location.href='/uploadpage';" value= "uploadpage" />
+		</body>
+		</ntml>`))
 	})
 
 	mux.HandleFunc("/health", health)
